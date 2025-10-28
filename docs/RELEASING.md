@@ -38,7 +38,7 @@ library.
 - [ ] Migration guides created (if needed)
 - [ ] Security review completed
 
-### Release Process Procedure 
+### Release Process Procedure
 
 1. **Update CHANGELOG.md**
    - Move items from [Unreleased] to new version
