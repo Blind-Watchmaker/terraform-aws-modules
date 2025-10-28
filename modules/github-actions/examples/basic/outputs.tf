@@ -21,9 +21,9 @@ output "iam_policy_name" {
 output "github_actions_config" {
   description = "Configuration values needed for GitHub Actions workflow"
   value = {
-    role_arn  = module.github_actions_role.iam_role_arn
-    region    = var.aws_region
-    repo      = var.github_repo
-    branch    = var.branch
+    role_arn = module.github_actions_role.iam_role_arn
+    region   = var.aws_region
+    repo     = var.github_repo
+    branch   = var.branch
   }
 }

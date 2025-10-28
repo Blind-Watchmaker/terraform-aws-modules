@@ -11,11 +11,11 @@ resource "aws_s3_bucket" "main" {
   bucket = var.s3_bucket_name
 
   tags = merge({
-    Name        = "Terraform State Bucket"
-    Purpose     = "Terraform State Storage"
-    ManagedBy   = "Terraform"
-    Module      = "backend"
-    Service     = "Terraform Backend"
+    Name      = "Terraform State Bucket"
+    Purpose   = "Terraform State Storage"
+    ManagedBy = "Terraform"
+    Module    = "backend"
+    Service   = "Terraform Backend"
   }, var.tags)
 
   lifecycle {
@@ -45,11 +45,11 @@ resource "aws_dynamodb_table" "main" {
   hash_key     = "LockID"
 
   tags = merge({
-    Name        = "Terraform State Locks"
-    Purpose     = "Terraform State Locking"
-    ManagedBy   = "Terraform"
-    Module      = "backend"
-    Service     = "Terraform Backend"
+    Name      = "Terraform State Locks"
+    Purpose   = "Terraform State Locking"
+    ManagedBy = "Terraform"
+    Module    = "backend"
+    Service   = "Terraform Backend"
   }, var.tags)
 
   attribute {

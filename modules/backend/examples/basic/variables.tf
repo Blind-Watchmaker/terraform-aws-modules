@@ -19,7 +19,7 @@ variable "dynamodb_table_name" {
 variable "tags" {
   description = "A map of tags to apply to contained resources"
   type        = map(string)
-  default     = {
+  default = {
     Environment = "example"
     Project     = "terraform-backend"
   }
