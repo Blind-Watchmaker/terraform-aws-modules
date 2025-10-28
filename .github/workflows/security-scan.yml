@@ -1,0 +1,48 @@
+# .github/workflows/security-scan.yml
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+      
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Checking for potential secrets..."
+          
+          # Check for AWS access keys
+          if grep -r "AKIA[0-9A-Z]" modules/ --exclude-dir=.terraform; then
+            echo "❌ Potential AWS access key found"
+            exit 1
+          fi
+          
+          # Check for common secret patterns
+          if grep -r -i "password\|secret\|key" modules/ --exclude-dir=.terraform --exclude="*.md"; then
+            echo "⚠️  Potential secrets found, please review"
+          fi
+          
+          echo "✅ No obvious secrets detected"

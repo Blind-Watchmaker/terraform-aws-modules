@@ -7,7 +7,6 @@ A collection of production-ready Terraform modules for AWS infrastructure.
 | Module | Description | Version | Status |
 |--------|-------------|---------|--------|
 
-
 ## Contributing
 
 See [CONTRIBUTING.md](../docs/CONTRIBUTING.md) for guidelines.

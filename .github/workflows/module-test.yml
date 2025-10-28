@@ -1,0 +1,72 @@
+# .github/workflows/module-test.yml
+name: Module Testing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'modules/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'modules/**'
+
+jobs:
+  test-modules:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [backend, github-actions]
+        terraform_version: ['1.6.0']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ matrix.terraform_version }}
+      
+      - name: Verify Module Structure
+        run: |
+          echo "Checking module: ${{ matrix.module }}"
+          
+          # Check required files exist
+          required_files=("main.tf" "variables.tf" "outputs.tf" "README.md")
+          for file in "${required_files[@]}"; do
+            if [ ! -f "modules/${{ matrix.module }}/$file" ]; then
+              echo "❌ Missing required file: modules/${{ matrix.module }}/$file"
+              exit 1
+            else
+              echo "✅ Found required file: modules/${{ matrix.module }}/$file"
+            fi
+          done
+          
+          # Check examples directory exists
+          if [ ! -d "modules/${{ matrix.module }}/examples/basic" ]; then
+            echo "❌ Missing examples/basic directory"
+            exit 1
+          else
+            echo "✅ Found examples/basic directory"
+          fi
+      
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive modules/${{ matrix.module }}
+      
+      - name: Terraform Init
+        run: terraform init
+        working-directory: modules/${{ matrix.module }}/examples/basic
+      
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: modules/${{ matrix.module }}/examples/basic
+      
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: modules/${{ matrix.module }}/examples/basic
+        env:
+          TF_VAR_aws_region: us-west-2
+          TF_VAR_s3_bucket_name: test-bucket-$(date +%s)
+          TF_VAR_dynamodb_table_name: test-table-$(date +%s)
+          TF_VAR_github_repo: test/repo
