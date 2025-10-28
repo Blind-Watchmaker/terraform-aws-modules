@@ -1,0 +1,57 @@
+# .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+      
+      - name: Run tests
+        run: |
+          # Run all module tests
+          for module_dir in modules/*/; do
+            if [ -d "$module_dir" ]; then
+              module_name=$(basename "$module_dir")
+              echo "Testing module: $module_name"
+              
+              terraform init
+              terraform validate
+              terraform plan
+            fi
+          done
+      
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ## What's Changed
+            
+            See CHANGELOG.md for detailed changes.
+            
+            ## Installation
+            
+            ```hcl
+            module "example" {
+              source  = "github.com/Blind-Watchmaker/terraform-aws-modules//modules/backend"
+              version = "${{ github.ref }}"
+            }
+            ```
+          draft: false
+          prerelease: false

@@ -1,0 +1,56 @@
+# .github/workflows/docs-check.yml
+name: Documentation Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check README files
+        run: |
+          echo "Checking documentation..."
+          
+          # Check main README exists
+          if [ ! -f "README.md" ]; then
+            echo "❌ Missing main README.md"
+            exit 1
+          fi
+          
+          # Check module READMEs exist
+          for module_dir in modules/*/; do
+            if [ -d "$module_dir" ]; then
+              module_name=$(basename "$module_dir")
+              if [ ! -f "$module_dir/README.md" ]; then
+                echo "❌ Missing README.md for module: $module_name"
+                exit 1
+              else
+                echo "✅ Found README.md for module: $module_name"
+              fi
+            fi
+          done
+      
+      - name: Check for broken links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.github/link-check-config.json'
+      
+      - name: Validate markdown syntax
+        run: |
+          # Install markdownlint if not available
+          if ! command -v markdownlint &> /dev/null; then
+            npm install -g markdownlint-cli
+          fi
+          
+          # Check markdown files
+          markdownlint README.md CHANGELOG.md docs/*.md modules/*/README.md

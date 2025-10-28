@@ -1,0 +1,17 @@
+# .github/link-check-config.json
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^https://localhost"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^/",
+      "replacement": "https://github.com/Blind-Watchmaker/terraform-aws-modules/"
+    }
+  ]
+}
