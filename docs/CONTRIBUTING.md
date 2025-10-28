@@ -197,7 +197,7 @@ Use the feature request template and include:
 - Create GitHub releases
 - Tag releases appropriately
 
-### Communication
+### Release Communication
 
 - Announce breaking changes
 - Provide migration guides
@@ -211,7 +211,7 @@ Use the feature request template and include:
 - Provide constructive feedback
 - Help others learn and grow
 
-### Communication
+### Communication to Community
 
 - Use clear, professional language
 - Provide context for issues and requests
