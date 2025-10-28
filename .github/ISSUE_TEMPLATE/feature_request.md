@@ -38,7 +38,7 @@ assignees: ''
 ```hcl
 # Example of how you would like to use this feature
 module "example" {
-  source = "github.com/willmusgrave/terraform-aws-modules//modules/backend"
+  source = "github.com/Blind-Watchmaker/terraform-aws-modules//modules/backend"
   version = "~> 1.0"
   
   # New feature configuration

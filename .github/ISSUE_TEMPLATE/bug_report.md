@@ -41,7 +41,7 @@ assignees: ''
 
 ```hcl
 module "example" {
-  source = "github.com/willmusgrave/terraform-aws-modules//modules/backend"
+  source = "github.com/Blind-Watchmaker/terraform-aws-modules//modules/backend"
   version = "~> 1.0"
   
   # Add your configuration here
