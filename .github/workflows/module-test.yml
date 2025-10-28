@@ -28,6 +28,12 @@ jobs:
         with:
           terraform_version: ${{ matrix.terraform_version }}
       
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/github-actions-terraform-role
+          aws-region: us-west-2
+      
       - name: Verify Module Structure
         run: |
           echo "Checking module: ${{ matrix.module }}"
