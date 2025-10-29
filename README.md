@@ -14,6 +14,7 @@ optimization.
 ### Backend Module
 
 Creates AWS infrastructure for Terraform remote state storage and locking:
+
 - S3 bucket with versioning for state file storage
 - DynamoDB table for state locking (pay-per-request)
 - Server-side encryption (AES256)
@@ -25,6 +26,7 @@ Creates AWS infrastructure for Terraform remote state storage and locking:
 
 Sets up IAM infrastructure for GitHub Actions to authenticate with AWS using
 OIDC:
+
 - IAM role with least-privilege permissions
 - OIDC integration for secure authentication
 - Branch-specific access control
@@ -34,7 +36,7 @@ OIDC:
 
 ## Quick Start
 
-### Backend Module
+### Backend Module Setup
 
 ```hcl
 module "backend" {
@@ -47,7 +49,7 @@ module "backend" {
 }
 ```
 
-### GitHub Actions Module
+### GitHub Actions Module Setup
 
 ```hcl
 module "github_actions" {
