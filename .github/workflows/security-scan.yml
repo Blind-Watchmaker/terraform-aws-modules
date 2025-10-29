@@ -12,6 +12,9 @@ on:
 jobs:
   security-scan:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Required for uploading SARIF results
+      contents: read          # Required for checking out code
     
     steps:
       - name: Checkout code
@@ -26,7 +29,7 @@ jobs:
           output: 'trivy-results.sarif'
       
       - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
       
