@@ -10,7 +10,17 @@ on:
 jobs:
   module-test:
     uses: ./.github/workflows/module-test.yml
+    permissions:
+      id-token: write
+      contents: read
+    
   security-scan:
     uses: ./.github/workflows/security-scan.yml
+    permissions:
+      security-events: write
+      contents: read
+    
   docs-check:
     uses: ./.github/workflows/docs-check.yml
+    permissions:
+      contents: read
