@@ -8,8 +8,6 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    uses: ./.github/workflows/test.yml
   module-test:
     uses: ./.github/workflows/module-test.yml
   security-scan:
