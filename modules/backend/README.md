@@ -1,14 +1,19 @@
 # Backend Module
 
-This module creates the AWS infrastructure required for Terraform remote state storage and locking. It provisions an S3 bucket for storing Terraform state files and a DynamoDB table for state locking to prevent concurrent modifications.
+This module creates the AWS infrastructure required for Terraform remote
+state storage and locking. It provisions an S3 bucket for storing Terraform
+state files and a DynamoDB table for state locking to prevent concurrent
+modifications.
 
 ## Features
 
 - **S3 Bucket**: Stores Terraform state files with versioning enabled
 - **Server-Side Encryption**: AES256 encryption for state files at rest
-- **DynamoDB Table**: Provides state locking to prevent concurrent Terraform operations
+- **DynamoDB Table**: Provides state locking to prevent concurrent Terraform
+  operations
 - **Lifecycle Protection**: Prevents accidental destruction of the S3 bucket
-- **Pay-per-Request**: DynamoDB table uses on-demand billing for cost efficiency
+- **Pay-per-Request**: DynamoDB table uses on-demand billing for cost
+  efficiency
 
 ## Usage
 
@@ -60,16 +65,19 @@ module "backend" {
 
 ## Security Considerations
 
-- The S3 bucket is protected from accidental deletion with `prevent_destroy = true`
+- The S3 bucket is protected from accidental deletion with
+  `prevent_destroy = true`
 - State files are encrypted at rest using AES256 server-side encryption
 - DynamoDB table uses pay-per-request billing to minimize costs
 - Bucket versioning is enabled to maintain state file history
 
 ## Cost Optimization
 
-- DynamoDB table uses on-demand billing (pay-per-request) instead of provisioned capacity
+- DynamoDB table uses on-demand billing (pay-per-request) instead of
+  provisioned capacity
 - S3 storage costs are minimal for typical Terraform state files
-- No additional AWS services are provisioned beyond the essential backend components
+- No additional AWS services are provisioned beyond the essential backend
+  components
 
 ## Examples
 

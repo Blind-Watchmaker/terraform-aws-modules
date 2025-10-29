@@ -1,14 +1,22 @@
 # GitHub Actions Module
 
-This module creates the AWS IAM infrastructure required for GitHub Actions to authenticate with AWS using OpenID Connect (OIDC). It provisions an IAM role with least-privilege permissions for Terraform operations and Route53 management.
+This module creates the AWS IAM infrastructure required for GitHub Actions
+to authenticate with AWS using OpenID Connect (OIDC). It provisions an IAM
+role with least-privilege permissions for Terraform operations and Route53
+management.
 
 ## Features
 
-- **OIDC Integration**: Secure authentication without storing AWS credentials in GitHub
-- **Least Privilege**: Minimal permissions required for Terraform and Route53 operations
-- **Branch Protection**: Restricts role assumption to specific repository branches
-- **Dynamic Policy**: IAM policy generated from template with variable substitution
-- **Resource Tagging**: Proper tagging for resource organization and cost tracking
+- **OIDC Integration**: Secure authentication without storing AWS credentials
+  in GitHub
+- **Least Privilege**: Minimal permissions required for Terraform and Route53
+  operations
+- **Branch Protection**: Restricts role assumption to specific repository
+  branches
+- **Dynamic Policy**: IAM policy generated from template with variable
+  substitution
+- **Resource Tagging**: Proper tagging for resource organization and cost
+  tracking
 
 ## Usage
 
@@ -40,7 +48,7 @@ module "github_actions_role" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| github_repo | GitHub repository in format <username>/<repo> | `string` | n/a | yes |
+| github_repo | GitHub repository in format username/repo | `string` | n/a | yes |
 | branch | Branch allowed to assume this role | `string` | `"main"` | no |
 | s3_bucket_name | S3 bucket used for Terraform state | `string` | n/a | yes |
 | dynamodb_table_name | DynamoDB table used for Terraform state locking | `string` | n/a | yes |
@@ -68,28 +76,34 @@ module "github_actions_role" {
 
 ## Security Considerations
 
-- **OIDC Authentication**: Uses GitHub's OIDC provider instead of long-lived credentials
-- **Branch Restriction**: Role can only be assumed from the specified repository branch
+- **OIDC Authentication**: Uses GitHub's OIDC provider instead of long-lived
+  credentials
+- **Branch Restriction**: Role can only be assumed from the specified
+  repository branch
 - **Least Privilege**: Policy grants only the minimum permissions required
-- **Resource Isolation**: Permissions are scoped to specific S3 bucket and DynamoDB table
+- **Resource Isolation**: Permissions are scoped to specific S3 bucket and
+  DynamoDB table
 
 ## Permissions Granted
 
 The IAM policy grants the following permissions:
 
 ### Route53 Permissions
+
 - `route53:ListHostedZones`
 - `route53:GetHostedZone`
 - `route53:ListResourceRecordSets`
 - `route53:ChangeResourceRecordSets`
 
 ### S3 Permissions (State Management)
+
 - `s3:ListBucket`
 - `s3:GetObject`
 - `s3:PutObject`
 - `s3:DeleteObject`
 
 ### DynamoDB Permissions (State Locking)
+
 - `dynamodb:PutItem`
 - `dynamodb:GetItem`
 - `dynamodb:DeleteItem`
