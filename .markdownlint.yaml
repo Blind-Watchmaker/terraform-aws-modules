@@ -1,0 +1,14 @@
+# Markdown linting configuration for Terraform AWS Modules
+MD013:
+  line_length: 100
+  code_blocks: false
+  tables: false
+
+# Allow HTML in markdown (useful for technical docs)
+MD033: false
+
+# Allow multiple consecutive blank lines (useful for spacing)
+MD012: false
+
+# Allow trailing spaces in code blocks
+MD009: false
